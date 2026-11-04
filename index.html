@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fun Place — Company Noticeboard</title>
+  <meta name="description" content="The company noticeboard: post your thoughts, tag colleagues, poke them endlessly." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📌</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- AUTH -->
+  <section id="auth-view" class="auth hidden">
+    <div class="auth-card">
+      <div class="brand big">📌 Fun Place</div>
+      <p class="tagline">The company noticeboard. Post thoughts. Tag people. Poke relentlessly.</p>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="login" role="tab">Log in</button>
+        <button class="tab" data-tab="signup" role="tab">Sign up</button>
+      </div>
+
+      <form id="login-form" class="auth-form">
+        <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Password<input type="password" name="password" required minlength="6" autocomplete="current-password" /></label>
+        <button class="btn primary" type="submit">Log in</button>
+      </form>
+
+      <form id="signup-form" class="auth-form hidden">
+        <label>Display name<input name="display_name" required maxlength="40" placeholder="e.g. Farhan" /></label>
+        <label>Department<input name="department" maxlength="40" placeholder="e.g. Engineering" /></label>
+        <label>Pick your avatar</label>
+        <div class="emoji-row" id="avatar-picker"></div>
+        <input type="hidden" name="avatar" value="😀" />
+        <label>Email<input type="email" name="email" required autocomplete="email" /></label>
+        <label>Password<input type="password" name="password" required minlength="6" autocomplete="new-password" /></label>
+        <button class="btn primary" type="submit">Create account</button>
+      </form>
+
+      <p id="auth-msg" class="auth-msg" role="status"></p>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <div id="app-view" class="hidden">
+    <header class="topbar">
+      <div class="brand">📌 Fun Place</div>
+      <div class="top-actions">
+        <button id="inbox-btn" class="icon-btn" aria-label="Inbox">🔔<span id="inbox-count" class="badge hidden">0</span></button>
+        <div class="me"><span id="me-avatar" class="avatar"></span><span id="me-name"></span></div>
+        <button id="logout-btn" class="btn ghost small">Log out</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="board-col">
+        <form id="composer" class="composer">
+          <textarea id="post-content" maxlength="500" rows="3" placeholder="What's on your mind? Hot take, shoutout, lunch plan…" required></textarea>
+
+          <div class="composer-row">
+            <div class="picker-group">
+              <span class="picker-label">Vibe</span>
+              <div class="emoji-row small" id="mood-picker"></div>
+            </div>
+            <div class="picker-group">
+              <span class="picker-label">Note</span>
+              <div class="color-row" id="color-picker"></div>
+            </div>
+          </div>
+
+          <div class="tag-box">
+            <div id="tag-chips" class="chips"></div>
+            <div class="tag-input-wrap">
+              <input id="tag-input" placeholder="🏷️ Tag colleagues…" autocomplete="off" />
+              <ul id="tag-suggest" class="suggest hidden"></ul>
+            </div>
+          </div>
+
+          <div class="composer-foot">
+            <span id="char-count" class="muted">0/500</span>
+            <button class="btn primary" type="submit">Pin it 📌</button>
+          </div>
+        </form>
+
+        <div class="filters">
+          <button class="filter active" data-filter="all">Everything</button>
+          <button class="filter" data-filter="tagged">Tagged me</button>
+          <button class="filter" data-filter="mine">My posts</button>
+        </div>
+
+        <div id="board" class="board" aria-live="polite"></div>
+        <p id="board-empty" class="empty hidden">The board is empty. Be the first to pin something!</p>
+      </section>
+
+      <aside class="side-col">
+        <section class="panel">
+          <h2>👉 Poke someone</h2>
+          <input id="people-search" class="search" placeholder="Search colleagues…" />
+          <ul id="people" class="people"></ul>
+        </section>
+
+        <section class="panel">
+          <h2>🏆 Most poked</h2>
+          <ol id="leaderboard" class="leaderboard"></ol>
+        </section>
+      </aside>
+    </main>
+
+    <!-- Inbox drawer -->
+    <div id="inbox" class="drawer hidden" role="dialog" aria-label="Inbox">
+      <div class="drawer-head">
+        <h2>Inbox</h2>
+        <button id="inbox-close" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <ul id="inbox-list" class="inbox-list"></ul>
+    </div>
+  </div>
+
+  <div id="toasts" class="toasts"></div>
+
+  <script src="config.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
