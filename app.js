@@ -453,7 +453,7 @@ function leaveApp() {
 initAuthUI();
 initAppUI();
 
-let currentUserId = null;
+let currentUserId; // undefined until the first auth event, so a logged-out first load still renders the login screen
 sb.auth.onAuthStateChange((_event, session) => {
   const uid = session?.user?.id ?? null;
   if (uid === currentUserId) return;
